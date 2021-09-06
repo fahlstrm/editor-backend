@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const index = require('./routes/index');
+const save = require('./routes/save');
 const hello = require('./routes/hello');
 
 const app = express();
@@ -41,41 +42,9 @@ app.post("/", (req, res) => {
 
 
 app.use('/', index);
-// app.use('/hello', hello);
+app.use('/save', save);
 
 
-// Testing routes with method
-app.get("/user", (req, res) => {
-    res.json({
-        data: {
-            msg: "Got a GET request"
-        }
-    });
-});
-
-
-app.get("/hello/:msg", (req, res) => {
-    const data = {
-        data: {
-            msg: req.params.msg
-        }
-    };
-
-    res.json(data);
-});
-
-
-
-
-app.put("/user", (req, res) => {
-    // PUT requests should return 204 No Content
-    res.status(204).send();
-});
-
-app.delete("/user", (req, res) => {
-    // DELETE requests should return 204 No Content
-    res.status(204).send();
-});
 
 app.use((req, res, next) => {
     var err = new Error("Not Found");
