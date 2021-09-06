@@ -2,14 +2,14 @@ var express = require('express');
 const { get } = require('.');
 var router = express.Router();
 
-const update = require("../src/get.js");
+const getAll = require("../src/get.js");
 
 
-router.get('/', function(req, res, next) {
-    let result = await get.getAll();
+router.get('/', async function(req, res, next) {
+    let result = await getAll.getAll();
     const data = {
         data: {
-            msg: "Dokument"
+            msg: result
         }
     };
     console.log(data);

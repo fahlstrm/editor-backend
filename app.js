@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const index = require('./routes/index');
 const save = require('./routes/save');
-const save = require('./routes/documents');
+const documents = require('./routes/documents');
 
 const app = express();
 const port = process.env.PORT || 1337;

@@ -4,7 +4,7 @@ const uri = require("../db/database.js");
 const { MongoClient } = require("mongodb");
 
 /**
- * 
+ * get all documents in mongoDB
  */
 
  const client = new MongoClient(uri);
