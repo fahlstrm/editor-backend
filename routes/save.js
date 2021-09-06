@@ -4,15 +4,13 @@ var router = express.Router();
 const update = require("../src/update.js");
 
 
-router.get('/:content', function(req, res, next) {
-    update.update(req.params.content);
-    const data = {
-        data: {
-            msg: "Spara routen"
-        }
-    };
-    console.log(data);
-    res.json(data);
+router.get('/:content', async function(req, res, next) {
+    let result = await update.update(req.params.content);
+    if (result) {
+        res.status(201).send();
+    } else {
+        res.status(204).send();
+    }
 });
 
 

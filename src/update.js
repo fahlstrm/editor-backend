@@ -7,6 +7,7 @@ const client = new MongoClient(uri);
 
 const data = {
     update: async function(old_h1, new_h1 = old_h1) {
+        var created = null;
         try {
             await client.connect();
             const database = client.db("editor");
@@ -34,6 +35,7 @@ const data = {
                 console.log("Updated one document.");
               }
               if (result.upsertedCount === 1) {
+                created = 1;
                 console.log(
                   "Inserted one new document with an _id of " + result.upsertedId
                 );
@@ -41,6 +43,7 @@ const data = {
             }
           } finally {
             await client.close();
+            return created;
           }
     }
 }

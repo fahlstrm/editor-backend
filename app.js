@@ -8,7 +8,7 @@ const save = require('./routes/save');
 
 const app = express();
 const port = process.env.PORT || 1337;
-// const port = 1337;
+
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -31,18 +31,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 
 
-app.post("/", (req, res) => {
-    res.status(201).json({
-        data: {
-            msg: "Got a POST request, sending back 201 Created"
-        }
-    });
-});
-
-
 app.use('/', index);
 app.use('/save', save);
 
+
+app.get("/test", (req, res) => {
+    console.log("Hello World");
+});
 
 
 app.use((req, res, next) => {
