@@ -3,5 +3,6 @@
 # dependencies
 /node_modules
 /db
+/.vscode
 
 config.json
