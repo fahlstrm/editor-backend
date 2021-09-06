@@ -36,7 +36,13 @@ app.use('/save', save);
 
 
 app.get("/test", (req, res) => {
-    console.log("Hello World");
+    const data = {
+        data: {
+            msg: "Testsidan"
+        }
+    };
+    console.log(data);
+    res.json(data);
 });
 
 
