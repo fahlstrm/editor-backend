@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const index = require('./routes/index');
 const save = require('./routes/save');
+const save = require('./routes/documents');
 
 const app = express();
 const port = process.env.PORT || 1337;
@@ -33,6 +34,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/', index);
 app.use('/save', save);
+app.use('/documents', documents);
 
 
 app.get("/test", (req, res) => {
