@@ -1,90 +1,57 @@
 "use strict";
+const document = require("./get.js");
 
 const uri = require("../db/database.js");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const client = new MongoClient(uri);
 
 const data = {
-    update: async function(old_h1, new_h1 = old_h1) {
+    update: async function(id, body) {
         var created = null;
         try {
-            await client.connect();
-            const database = client.db("editor");
-            const text = database.collection("texts");
-            // create a query for a movie to update
-            const query = { title: old_h1 };
-            const options = {
-              // create a document if no documents match the query
-              upsert: true,
-            };
-            // create a new document that will be used to replace the existing document
-            const replacement = {
-              title: new_h1,
-              plot:
-                "Robin Sparkles mourns for a relationship with a mall rat at an idyllic beach.",
-            };
-            const result = await text.replaceOne(query, replacement, options);
-            if (result.modifiedCount === 0 && result.upsertedCount === 0) {
-              console.log("No changes made to the collection.");
-            } else {
-              if (result.matchedCount === 1) {
-                console.log("Matched " + result.matchedCount + " documents.");
-              }
-              if (result.modifiedCount === 1) {
-                console.log("Updated one document.");
-              }
-              if (result.upsertedCount === 1) {
-                created = 1;
-                console.log(
-                  "Inserted one new document with an _id of " + result.upsertedId
-                );
-              }
+          console.log(body);
+          await client.connect();
+          const database = client.db("editor");
+          const text = database.collection("texts");
+          //Get document by id 
+          let found = await document.oneTitle(id);
+          console.log(found);
+          //Using title or creates new one
+          const query = {title: found};
+
+          const options = {
+            // create a document if no documents match the query
+            upsert: true,
+          };
+          // create a new document that will be used to replace the existing document
+          const replacement = {
+            title: body.text.slice(3, 10),
+            text:
+              body.text,
+          };
+          const result = await text.replaceOne(query, replacement, options);
+          if (result.modifiedCount === 0 && result.upsertedCount === 0) {
+            console.log("No changes made to the collection.");
+          } else {
+            if (result.matchedCount === 1) {
+              console.log("Matched " + result.matchedCount + " documents.");
             }
-          } finally {
-            await client.close();
-            return created;
+            if (result.modifiedCount === 1) {
+              console.log("Updated one document.");
+            }
+            if (result.upsertedCount === 1) {
+              created = 1;
+              console.log(
+                "Inserted one new document with an _id of " + result.upsertedId
+              );
+            }
           }
-    }
+        } finally {
+          await client.close();
+          return created;
+        }
+  }
 }
 
 module.exports = data;
-
-// async function run() {
-//   try {
-//     await client.connect();
-//     const database = client.db("editor");
-//     const text = database.collection("texts");
-//     // create a query for a movie to update
-//     const query = { title: "Test title" };
-//     const options = {
-//       // create a document if no documents match the query
-//       upsert: true,
-//     };
-//     // create a new document that will be used to replace the existing document
-//     const replacement = {
-//       title: "Sandcastles in the Sand",
-//       plot:
-//         "Robin Sparkles mourns for a relationship with a mall rat at an idyllic beach.",
-//     };
-//     const result = await text.replaceOne(query, replacement, options);
-//     if (result.modifiedCount === 0 && result.upsertedCount === 0) {
-//       console.log("No changes made to the collection.");
-//     } else {
-//       if (result.matchedCount === 1) {
-//         console.log("Matched " + result.matchedCount + " documents.");
-//       }
-//       if (result.modifiedCount === 1) {
-//         console.log("Updated one document.");
-//       }
-//       if (result.upsertedCount === 1) {
-//         console.log(
-//           "Inserted one new document with an _id of " + result.upsertedId._id
-//         );
-//       }
-//     }
-//   } finally {
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
