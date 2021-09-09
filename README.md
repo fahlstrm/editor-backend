@@ -15,6 +15,9 @@ CRUD code is placed in src-folder. One file for get, post and update.
 Pull github-repo then run following script:
 
 git init
+
 git pull https://github.com/fahlstrm/editor-backend
+
 npm install
+
 npm start
