@@ -1,7 +1,20 @@
-# Editor
-A editor project using Express, nodejs and MongoDB
+# Editor API
+A editor and API- project using Express, nodejs and MongoDB.
 
-## Install API
-Pull github-repo then run below script:
-npm install 
+## Table of content
+- Files
+- Install 
+
+
+## Files
+Routes have been placed in routes folder.
+
+CRUD code is placed in src-folder. One file for get, post and update.
+
+## Install
+Pull github-repo then run following script:
+
+git init
+git pull https://github.com/fahlstrm/editor-backend
+npm install
 npm start
