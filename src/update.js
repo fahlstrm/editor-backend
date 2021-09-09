@@ -26,7 +26,7 @@ const data = {
           };
           // create a new document that will be used to replace the existing document
           const replacement = {
-            title: body.text.slice(3, 10),
+            title: body.text.slice(3, 15),
             text:
               body.text,
           };
