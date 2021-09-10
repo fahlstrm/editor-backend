@@ -21,3 +21,5 @@ git pull https://github.com/fahlstrm/editor-backend
 npm install
 
 npm start
+
+Create a config.json file in the backend folder. Including a json-object containing username and password to MongoDB
