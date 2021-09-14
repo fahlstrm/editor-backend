@@ -1,22 +1,21 @@
 "use strict";
 const document = require("./get.js");
 
-const uri = require("../db/database.js");
-const { MongoClient, ObjectId } = require("mongodb");
+const database = require("../db/database.js");
+// const { MongoClient, ObjectId } = require("mongodb");
 
-const client = new MongoClient(uri);
-
+/**
+ * Functionns to update or save a new doc
+ */
 const data = {
     update: async function(id, body) {
         var created = null;
         try {
-          console.log(body);
-          await client.connect();
-          const database = client.db("editor");
-          const text = database.collection("texts");
+          const db = await database.getDb();
+
           //Get document by id 
           let found = await document.oneTitle(id);
-          console.log(found);
+          
           //Using title or creates new one
           const query = {title: found};
 
@@ -30,7 +29,8 @@ const data = {
             text:
               body.text,
           };
-          const result = await text.replaceOne(query, replacement, options);
+          console.log(db.collection)
+          const result = await db.collection.replaceOne(query, replacement, options);
           if (result.modifiedCount === 0 && result.upsertedCount === 0) {
             console.log("No changes made to the collection.");
           } else {
@@ -48,7 +48,7 @@ const data = {
             }
           }
         } finally {
-          await client.close();
+          // await client.close();
           return created;
         }
   }

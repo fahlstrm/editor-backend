@@ -1,54 +1,44 @@
 "use strict";
 
-const uri = require("../db/database.js");
-const { MongoClient, ObjectId } = require("mongodb");
+const database = require("../db/database.js");
+const { ObjectId } = require("mongodb");
 
 /**
- * get all documents in mongoDB
+ * Functions to collect all docs. or one specific doc
  */
-
- const client = new MongoClient(uri);
  const data = {
   all: async function run() {
     var cursor;
     try {
-      await client.connect();
-      const database = client.db("editor");
-      const texts = database.collection("texts");
-      cursor = texts.find({});
+      const db = await database.getDb();
+      cursor = db.collection.find({});
       var result = await cursor.toArray(); 
 
       if ((await cursor.count()) === 0) {
         console.log("No documents found!");
       }
     } finally {
-      await client.close();
+      // await db.client.close();
       return result;
     }
   },
   oneTitle: async function run(id) {
-    await client.connect();
-    const database = client.db("editor");
-    const texts = database.collection("texts");
+    const db = await database.getDb();
   
-    
     if(ObjectId.isValid(id)) {
       const query = {_id: new ObjectId(id)};
-      let crusor = await texts.find(query);
+      let crusor = await db.collection.find(query);
       var found = await crusor.toArray();
       return found[0].title;
     }
     return "No valid id"
   },
   one: async function run(id) {
-    await client.connect();
-    const database = client.db("editor");
-    const texts = database.collection("texts");
+    const db = await database.getDb();
   
-    
     if(ObjectId.isValid(id)) {
       const query = {_id: new ObjectId(id)};
-      let crusor = await texts.find(query);
+      let crusor = await db.collection.find(query);
       var found = await crusor.toArray();
       return found[0];
     }

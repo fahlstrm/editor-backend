@@ -68,5 +68,7 @@ app.use((err, req, res, next) => {
         ]
     });
 });
+
 // Start up server
-app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+module.exports = server;

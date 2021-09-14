@@ -1,21 +1,19 @@
 "use strict";
 
 const uri = require("../db/database.js");
-const { MongoClient } = require("mongodb");
+// const { MongoClient } = require("mongodb");
 
 /**
  * Post ned docs to editor collection
  */
-const client = new MongoClient(uri);
 async function run() {
   try {
-    await client.connect();
-    const database = client.db("editor");
-    const text = database.collection("texts");
+    const db = await database.getDb();
+
     // create a document to be inserted
     const doc = { title: "Test title", content: "test content" };
-    const result = await text.insertOne(doc);
-    console.log(result);
+    const result = await db.connection.insertOne(doc);
+
     console.log(
       `${result.acknowledged} documents were inserted with the _id: ${result.insertedId}`,
     );
