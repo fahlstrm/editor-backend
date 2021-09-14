@@ -22,4 +22,11 @@ npm install
 
 npm start
 
-Create a config.json file in the backend folder. Including a json-object containing username and password to MongoDB
+Create a config.json file in the backend folder. Including a json-object containing username and password to MongoDB.
+
+Create a db folder to inclued a database.js file, put your mongoDB-link in a 
+variable called DSN_CONNECTION
+
+
+
+You're all set! 
