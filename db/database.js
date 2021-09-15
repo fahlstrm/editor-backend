@@ -1,16 +1,17 @@
 const mongo = require("mongodb").MongoClient;
 
-var config; 
-try {
-    config = require("../config.json");
-} catch(e) {
-    console.log(e)
-}
+// var config; 
+// try {
+//     config = require("../config.json");
+// } catch(e) {
+//     console.log(e)
+// }
 
 var collectionName = "";
 
-var username = process.env.USERNAME || config.username;
-var password = process.env.PASSWORD || config.password;
+var username = process.env.USERNAME ? process.env.USERNAME : config.username, config = inclued("../config.json");
+var username = process.env.PASSWORD ? process.env.PASSWORD : config.password, config = inclued("../config.json");
+// var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const database = {
