@@ -1,16 +1,15 @@
 const mongo = require("mongodb").MongoClient;
 
-// var config; 
-// try {
-//     config = require("../config.json");
-// } catch(e) {
-//     console.log(e)
-// }
+var config; 
+try {
+    config = require("../config.json");
+} catch(e) {
+    console.log(e)
+}
 
 var collectionName = "";
 
-var username = process.env.USERNAME ? process.env.USERNAME : config.username, config = include("../config.json");
-var username = process.env.PASSWORD ? process.env.PASSWORD : config.password, config = include("../config.json");
+var username = process.env.USERNAME || config.username;
 // var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
@@ -21,14 +20,14 @@ const database = {
         let dsn = `mongodb+srv://${username}:${password}@${link}`;
         // console.log(process.env.NODE_ENV)
 
-        if (process.env.NODE_ENV == 'test') {
-            //Test collection name
-            console.log("collectionName: test-docs")
-            collectionName = "test-docs";
-        } else {
+        if (process.env.NODE_ENV != 'test') {
             // Production collection name
             collectionName = "texts";
             console.log("i produktion")
+        } else if (process.env.NODE_ENV == 'test') {
+            //Test collection name
+            console.log("collectionName: test-docs")
+            collectionName = "test-docs";
 
         }
 
