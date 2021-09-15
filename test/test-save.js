@@ -19,7 +19,7 @@ describe('Save', () => {
         it('it should return an object', (done) => {
             chai.request(server)
                 .post(`/save/${result.id}`)
-                .send({ 
+                .send({
                     text: "Trying to update text"
                 })
                 .end((err, res) => {
@@ -39,4 +39,4 @@ describe('Save', () => {
                 });
         });
     });
-})
+});
