@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">80.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/36</span>
+                <span class='fraction'>29/36</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.86% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/35</span>
+                <span class='fraction'>28/35</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -153,9 +153,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,14 +171,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,10 +227,10 @@ app.use(cors());
 &nbsp;
 // This is middleware called for all routes.
 // Middleware takes three parameters.
-app.use(<span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log(req.method);</span>
-<span class="cstat-no" title="statement not covered" >    console.log(req.path);</span>
-<span class="cstat-no" title="statement not covered" >    next();</span>
+app.use((req, res, next) =&gt; {
+    console.log(req.method);
+    console.log(req.path);
+    next();
 });
 &nbsp;
 // don't show the log when it is test
@@ -245,15 +245,15 @@ app.use('/save', save);
 app.use('/documents', documents);
 &nbsp;
 &nbsp;
-app.get("/test", <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-    const data = <span class="cstat-no" title="statement not covered" >{</span>
+app.get("/test", (req, res) =&gt; {
+    const data = {
         data: {
             msg: "Testsidan"
         }
     };
-<span class="cstat-no" title="statement not covered" >    console.log(data);</span>
+    console.log(data);
     // res.json(data);
-<span class="cstat-no" title="statement not covered" >    res.status(200).json(data);</span>
+    res.status(200).json(data);
 });
 &nbsp;
 &nbsp;
@@ -280,7 +280,7 @@ app.use(<span class="fstat-no" title="function not covered" >(e</span>rr, req, r
 });
 &nbsp;
 // Start up server
-const server = app.listen(port, <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >console.log(`Example API listening on port ${port}!`))</span>;
+const server = app.listen(port, () =&gt; console.log(`Example API listening on port ${port}!`));
 module.exports = server;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -289,7 +289,7 @@ module.exports = server;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 15 2021 15:03:28 GMT+0200 (centraleuropeisk sommartid)
+                at Wed Sep 15 2021 16:32:28 GMT+0200 (centraleuropeisk sommartid)
             </div>
         </div>
         <script src="../prettify.js"></script>

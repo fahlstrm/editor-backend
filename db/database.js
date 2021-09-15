@@ -10,7 +10,7 @@ try {
 var collectionName = "";
 
 var username = process.env.USERNAME || config.username;
-// var password = process.env.PASSWORD || config.password;
+var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const database = {
