@@ -1,6 +1,10 @@
 const mongo = require("mongodb").MongoClient;
 
-var config = require("../config.json");
+try {
+    var config = require("../config.json");
+} catch(e) {
+    console.log(e)
+}
 
 var collectionName = "";
 
