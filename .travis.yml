@@ -13,6 +13,9 @@ services:
 git:
     submodules: false
 
+env: 
+  - PASSWORD
+  - USERNAME
 
 before_script:
     - npm install

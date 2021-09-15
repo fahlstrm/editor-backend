@@ -1,16 +1,17 @@
 const mongo = require("mongodb").MongoClient;
 
-// var config = require("../config.json");
+var config = require("../config.json");
 
 var collectionName = "";
 
-var username = process.env.USERNAME || config.username, config = require("../config.json");
-var password = process.env.PASSWORD || config.password, config = require("../config.json");
+var username = process.env.USERNAME || config.username;
+var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const database = {
     getDb: async function getDb () {
         // Link to MongoDB Atlas
+
         let dsn = `mongodb+srv://${username}:${password}@${link}`;
         // console.log(process.env.NODE_ENV)
 
