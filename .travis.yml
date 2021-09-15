@@ -24,7 +24,7 @@ cache:
 
 
 script:
-    - npm test --watch=false --no-progress --single-run
+    - npm test
 
 after_success:
     - npm run report-coveralls

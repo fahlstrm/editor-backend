@@ -10,12 +10,13 @@ chai.should();
 
 async function create() {
     const db = await  database.getDb();
+    
     db.collection.insertOne(
-        { "title" : "canvas",
-          "test" : "test",
+        { 
+            "title" : "test-titel",
+            "text" : "test-text to use in tests",
         }
      )
-    // console.log(db.collection.find({}))
 }
 
 async function tearDown() {
@@ -41,44 +42,21 @@ async function tearDown() {
 
 
 
+describe('Documents', () => {
+    describe('GET /documents/all', () => {
+        before('connect', async function() {
+            await tearDown();
+            await create();
+        });
+        it('it should return an object', (done) => {
+            chai.request(server)
+                .get("/documents/all")
+                .end((err, res) => {
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
 
-
-describe('GET /documents/all', () => {
-    before('connect', async function() {
-        tearDown();
-        create();
-        // const db = await  database.getDb();
-        // db.collection.insertOne(
-        // { "title" : "canvas",
-        //   "test" : "test",
-        // }
-        // )
-    // console.log(db.collection.find({}))
-      });
-    it('it should return an object', (done) => {
-        chai.request(server)
-            .get("/documents/all")
-            .end((err, res) => {
-                // res.should.have.status(200);
-
-                res.body.should.be.an("object");
-                res.body.data.should.be.an("array");
-
-                done();
-            });
+                    done();
+                });
+        });
     });
-});
-
-// describe('GET /test', () => {
-//     it('it should return an object', (done) => {
-//         chai.request(server)
-//             .get("/test")
-//             .end((err, res) => {
-//                 res.should.have.status(200);
-//                 res.body.should.be.an("object");
-//                 res.body.data.should.be.an("object");
-
-//                 done();
-//             });
-//     });
-// });
+})
