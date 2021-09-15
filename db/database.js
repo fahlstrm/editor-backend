@@ -23,10 +23,10 @@ const database = {
         if (process.env.NODE_ENV != 'test') {
             // Production collection name
             collectionName = "texts";
-            console.log("i produktion")
+            // console.log("i produktion")
         } else if (process.env.NODE_ENV == 'test') {
             //Test collection name
-            console.log("collectionName: test-docs")
+            // console.log("collectionName: test-docs")
             collectionName = "test-docs";
         }
 
