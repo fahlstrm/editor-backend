@@ -1,7 +1,8 @@
 const mongo = require("mongodb").MongoClient;
 
+var config; 
 try {
-    var config = require("../config.json");
+    config = require("../config.json");
 } catch(e) {
     console.log(e)
 }
