@@ -21,14 +21,15 @@ const database = {
         let dsn = `mongodb+srv://${username}:${password}@${link}`;
         // console.log(process.env.NODE_ENV)
 
-        if (process.env.NODE_ENV !== 'test') {
-            // Production collection name
-            collectionName = "texts";
-            console.log("i produktion")
-        } else {
+        if (process.env.NODE_ENV == 'test') {
             //Test collection name
             console.log("collectionName: test-docs")
             collectionName = "test-docs";
+        } else {
+            // Production collection name
+            collectionName = "texts";
+            console.log("i produktion")
+
         }
 
         const client  = await mongo.connect(dsn, {
