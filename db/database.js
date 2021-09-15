@@ -28,7 +28,6 @@ const database = {
             //Test collection name
             console.log("collectionName: test-docs")
             collectionName = "test-docs";
-
         }
 
         const client  = await mongo.connect(dsn, {

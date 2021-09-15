@@ -12,18 +12,14 @@ services:
 
 git:
     submodules: false
-
-env: 
-  - PASSWORD
-  - USERNAME
+  
 
 before_script:
     - npm install
 
-
-cache:
-  directories:
-     - ./node_modules
+# cache:
+#   directories:
+#      - ./node_modules
 
 
 script:
