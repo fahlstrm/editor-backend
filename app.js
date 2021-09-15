@@ -43,7 +43,8 @@ app.get("/test", (req, res) => {
         }
     };
     console.log(data);
-    res.json(data);
+    // res.json(data);
+    res.status(200).json(data);
 });
 
 

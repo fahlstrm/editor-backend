@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
         }
     };
     console.log(data);
-    res.json(data);
+    res.status(200).json(data);
 });
 
 
