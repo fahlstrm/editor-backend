@@ -31,7 +31,7 @@ Update the database.js file, replace with your own mongoDB-link in link
 variable.
 
 ## Tests
-Application tested. See test folder.
+Application has been tested. See test folder. 
 Build passed by Travis-ci
 
 
