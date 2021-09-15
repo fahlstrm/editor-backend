@@ -13,7 +13,7 @@ chai.should();
 describe('Documents', () => {
     before('connect', async function() {
         await db.tearDown();
-        id_ = await db.create();
+        res = await db.create();
     });
     describe('GET /documents/all', () => {
 
@@ -32,7 +32,7 @@ describe('Documents', () => {
     describe('GET /documents/:id', () => {
         it('it should return an object', (done) => {
             chai.request(server)
-                .get(`/documents/${id_}`)                
+                .get(`/documents/${res.id}`)                
                 .end((err, res) => {
                     res.body.should.be.an("object");
                     // res.body.data.should.be.an("array");

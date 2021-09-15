@@ -5,6 +5,7 @@ const update = require("../src/update.js");
 
 
 router.post('/:id', async function(req, res) {
+    console.log("i post")
     let result = await update.update(req.params.id, req.body);
     if (result) {
         res.status(201).send();

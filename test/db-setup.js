@@ -1,8 +1,5 @@
 const database = require("../db/database.js");
 
-
-
-
 const dbFunc = {
     create: async function() {
         const db = await database.getDb();
@@ -12,11 +9,18 @@ const dbFunc = {
                 "text" : "test-text to use in tests",
             }
          )
-        let id = await db.collection.find({"title": "test-title"} ).toArray();
+        let res = await db.collection.find({"title": "test-title"} ).toArray();
+        let result = {};
+        
+        result.id = res[0]._id.toString();
+        result.data = res;
     
-        id = id[0]._id.toString();
-    
-        return id;
+        return result;
+    },
+    find: async function(title) {
+        const db = await database.getDb();
+        let res = await db.collection.find({"text": `${title}`} ).toArray();
+        return res;
     },
     tearDown: async function() {
         const db = await database.getDb();
