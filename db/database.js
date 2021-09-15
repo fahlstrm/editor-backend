@@ -9,8 +9,8 @@ const mongo = require("mongodb").MongoClient;
 
 var collectionName = "";
 
-var username = process.env.USERNAME ? process.env.USERNAME : config.username, config = inclued("../config.json");
-var username = process.env.PASSWORD ? process.env.PASSWORD : config.password, config = inclued("../config.json");
+var username = process.env.USERNAME ? process.env.USERNAME : config.username, config = include("../config.json");
+var username = process.env.PASSWORD ? process.env.PASSWORD : config.password, config = include("../config.json");
 // var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
