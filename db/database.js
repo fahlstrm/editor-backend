@@ -1,17 +1,13 @@
 const mongo = require("mongodb").MongoClient;
-try {
-    const config = require("../config.json");
-} catch(e) {
-    console.log(e)
-}
+
+const config = include("../config.json");
+
 
 var collectionName = "";
 
 const username = process.env.USERNAME || config.username;
 const password = process.env.PASSWORD || config.password;
 const link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-
-// let DSN_CONNECTION = `mongodb+srv://${config.username}:${config.password}@cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const database = {
     getDb: async function getDb () {
