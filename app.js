@@ -42,6 +42,7 @@ app.get("/test", (req, res) => {
             msg: "Testsidan"
         }
     };
+
     console.log(data);
     // res.json(data);
     res.status(200).json(data);
@@ -50,6 +51,7 @@ app.get("/test", (req, res) => {
 
 app.use((req, res, next) => {
     var err = new Error("Not Found");
+
     err.status = 404;
     next(err);
 });
@@ -72,4 +74,5 @@ app.use((err, req, res, next) => {
 
 // Start up server
 const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+
 module.exports = server;
