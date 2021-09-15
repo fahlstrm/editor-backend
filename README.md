@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/fahlstrm/editor-backend.svg?branch=master)](https://app.travis-ci.com/fahlstrm/editor-backend)
+
 # Editor API
 A editor and API- project using Express, nodejs and MongoDB.
 
