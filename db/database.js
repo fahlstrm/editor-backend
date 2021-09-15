@@ -1,5 +1,10 @@
 const mongo = require("mongodb").MongoClient;
-const config = require("../config.json");
+try {
+    const config = require("../config.json");
+} catch(e) {
+    console.log(e)
+}
+
 var collectionName = "";
 
 const username = process.env.USERNAME || config.username;
