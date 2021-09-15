@@ -5,9 +5,10 @@ const update = require("../src/update.js");
 
 
 router.post('/:id', async function(req, res) {
-    console.log("i post")
     let result = await update.update(req.params.id, req.body);
+    // console.log(result)
     if (result) {
+        console.log(result)
         res.status(201).send();
     } else {
         res.status(204).send();

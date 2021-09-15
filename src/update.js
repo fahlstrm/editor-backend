@@ -9,9 +9,6 @@ const database = require("../db/database.js");
  */
 const data = {
     update: async function(id, body) {
-      console.log("i uypdate")
-      console.log(id)
-      console.log(body)
         var created = null;
         try {
           const db = await database.getDb();
@@ -32,7 +29,7 @@ const data = {
             text:
               body.text,
           };
-          
+
           // console.log(db.collection)
           const result = await db.collection.replaceOne(query, replacement, options);
           if (result.modifiedCount === 0 && result.upsertedCount === 0) {

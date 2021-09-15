@@ -6,6 +6,7 @@ A editor and API- project using Express, nodejs and MongoDB.
 ## Table of content
 - Files
 - Install 
+- Tests
 
 
 ## Files
@@ -26,9 +27,12 @@ npm start
 
 Create a config.json file in the backend folder. Including a json-object containing username and password to MongoDB.
 
-Create a db folder to inclued a database.js file, put your mongoDB-link in a 
-variable called DSN_CONNECTION
+Update the database.js file, replace with your own mongoDB-link in link 
+variable.
+
+## Tests
+Application tested. See test folder.
+Build passed by Travis-ci
 
 
-
-You're all set! 
+### You're all set! 
