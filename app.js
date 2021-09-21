@@ -10,6 +10,15 @@ const documents = require('./routes/documents');
 const app = express();
 const port = process.env.PORT || 1337;
 
+const httpServer = require("http").createServer(app);
+
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "http://localhost:1337",
+      methods: ["GET", "POST"]
+    }
+  });
+
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
