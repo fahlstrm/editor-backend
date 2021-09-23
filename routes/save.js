@@ -7,7 +7,7 @@ const newDoc = require("../src/post.js");
 
 
 router.post('/:id', async function(req, res) {
-    let result = await update.update(req.params.id, req.body);
+    let result = await update.updateDoc(req.params.id, req.body);
 
     if (result) {
         res.status(201).send();

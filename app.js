@@ -7,9 +7,54 @@ const index = require('./routes/index');
 const save = require('./routes/save');
 const documents = require('./routes/documents');
 
-const app = express();
-const port = process.env.PORT || 1337;
+const update = require("./src/update.js");
 
+
+const app = express();
+// const port = process.env.PORT || 1337;
+const port = process.env.PORT || 3000;
+
+
+const httpServer = require("http").createServer(app);
+
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "http://localhost:4200",
+      methods: ["GET", "POST"]
+    }
+  });
+
+
+
+io.on('connection', function (socket) {
+    console.info("User connected");
+
+    // socket.emit('message', "testing some data new");
+    // var throttleTimer;
+
+    socket.on('create', function(room) {
+        var reset;
+        socket.join(room);
+        socket.leave(reset);
+        reset = room;
+        console.log(`i server ${room}`)
+    });
+
+
+    socket.on('message', function (message) {
+        console.log(message)
+        let id = message.id; 
+        socket.to(message.id).emit("message", message.text);
+
+        throttleTimer = setTimeout(async function() {
+            console.log("now it should save to database")
+            await update.updateDoc(message.id, message);
+            // console.log(res)
+        }, 2000);
+        // io.emit('message', message.text);
+    });
+
+});
 
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -74,7 +119,10 @@ app.use((err, req, res, next) => {
 });
 
 // Start up server
-const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+// const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server= httpServer.listen(port, () => {
+    console.log(`listening on ${port}`);
+  });
 
 
 module.exports = server;
