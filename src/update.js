@@ -10,10 +10,9 @@ const database = require("../db/database.js");
 const data = {
     update: async function(id, body) {
         var created = null;
+        const db = await database.getDb();
 
         try {
-            const db = await database.getDb();
-
             //Get document by id
             let found = await document.oneTitle(id);
 
@@ -51,7 +50,7 @@ const data = {
                 }
             }
         } finally {
-            // await client.close();
+            await db.client.close();
             return created;
         }
     }

@@ -10,14 +10,6 @@ const documents = require('./routes/documents');
 const app = express();
 const port = process.env.PORT || 1337;
 
-const httpServer = require("http").createServer(app);
-
-const io = require("socket.io")(httpServer, {
-    cors: {
-      origin: "http://localhost:1337",
-      methods: ["GET", "POST"]
-    }
-  });
 
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -83,5 +75,6 @@ app.use((err, req, res, next) => {
 
 // Start up server
 const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+
 
 module.exports = server;

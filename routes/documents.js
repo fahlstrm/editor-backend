@@ -3,6 +3,8 @@ var router = express.Router();
 
 const docs = require("../src/get.js");
 
+
+
 router.get('/all', async function(req, res) {
     let result = await docs.all();
 

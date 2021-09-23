@@ -9,10 +9,8 @@ const { ObjectId } = require("mongodb");
 const data = {
     all: async function run() {
         var cursor;
-
+        const db = await database.getDb();
         try {
-            const db = await database.getDb();
-
             cursor = db.collection.find({});
             var result = await cursor.toArray();
 
@@ -20,33 +18,41 @@ const data = {
                 console.log("No documents found!");
             }
         } finally {
-        // await db.client.close();
+            await db.client.close();
             return result;
         }
     },
     oneTitle: async function run(id) {
         const db = await database.getDb();
 
-        if (ObjectId.isValid(id)) {
-            const query = {_id: new ObjectId(id)};
-            let crusor = await db.collection.find(query);
-            var found = await crusor.toArray();
-
-            return found[0].title;
-        }
-        return "No valid id";
+        try {
+            if (ObjectId.isValid(id)) {
+                const query = {_id: new ObjectId(id)};
+                let crusor = await db.collection.find(query);
+                var found = await crusor.toArray();
+    
+                return found[0].title;
+            }
+            return "No valid id";
+        } finally {
+            await db.client.close();
+        } 
     },
     one: async function run(id) {
         const db = await database.getDb();
+        try {
 
-        if (ObjectId.isValid(id)) {
-            const query = {_id: new ObjectId(id)};
-            let crusor = await db.collection.find(query);
-            var found = await crusor.toArray();
-
-            return found[0];
-        }
-        return "No valid id";
+            if (ObjectId.isValid(id)) {
+                const query = {_id: new ObjectId(id)};
+                let crusor = await db.collection.find(query);
+                var found = await crusor.toArray();
+    
+                return found[0];
+            }
+            return "No valid id";
+        } finally {
+            await db.client.close();
+        }  
     }
 };
 
