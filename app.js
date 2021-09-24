@@ -25,10 +25,9 @@ const io = require("socket.io")(httpServer, {
   });
 
 
-
 io.on('connection', function (socket) {
     console.info("User connected");
-
+    console.log(socket.handshake.query);
     // socket.emit('message', "testing some data new");
     // var throttleTimer;
 
