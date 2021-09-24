@@ -19,7 +19,7 @@ const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-      origin: "http://localhost:4200",
+      origin: "http://www.student.bth.se",
       methods: ["GET", "POST"]
     }
   });
@@ -34,8 +34,8 @@ io.on('connection', function (socket) {
 
     socket.on('create', function(room) {
         var reset;
-        socket.join(room);
         socket.leave(reset);
+        socket.join(room);
         reset = room;
         console.log(`i server ${room}`)
     });

@@ -4,7 +4,9 @@
 /node_modules
 /.vscode
 /coverage
+/.nyc_output
 
 config.yml
 config.json
 .travis.yml
+
