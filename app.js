@@ -6,6 +6,7 @@ const cors = require('cors');
 const index = require('./routes/index');
 const save = require('./routes/save');
 const documents = require('./routes/documents');
+const users = require('./routes/users');
 
 const update = require("./src/update.js");
 
@@ -79,6 +80,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.use('/', index);
 app.use('/save', save);
 app.use('/documents', documents);
+app.use('/users', users);
 
 
 app.get("/test", (req, res) => {
