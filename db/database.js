@@ -40,7 +40,31 @@ const database = {
             collection: collection,
             client: client,
         };
-    }
+    },
+    getUsersDb: async function getDb() {
+        let dsn = `mongodb+srv://${username}:${password}@${link}`;
+
+        if (process.env.NODE_ENV != 'test') {
+            // Production collection name
+            collectionName = "users";
+        } else if (process.env.NODE_ENV == 'test') {
+            //Test collection name
+            collectionName = "test-users";
+        }
+
+        const client  = await mongo.connect(dsn, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        const db = await client.db("editor");
+        const collection = await db.collection(collectionName);
+
+        return {
+            db: db,
+            collection: collection,
+            client: client,
+        };
+    },
 };
 
 module.exports = database;
