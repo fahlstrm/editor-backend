@@ -2,11 +2,10 @@
 const database = require("../db/database.js");
 const bcryptjs = require('bcryptjs');
 const saltRounds = 10;
-const myPlaintextPassword = 'longandhardP4$w0rD';
-// const { MongoClient, ObjectId } = require("mongodb");
+
 
 /**
- * Functionns to update or save a new doc
+ * Functionns to hash pw
  */
 const data = {
     hashPW: function (password) {
@@ -18,7 +17,23 @@ const data = {
             res(hash)
         })
         )
-
+    },
+    unhash: function (password, hash) {
+        console.log("i unhash")
+        console.log(hash)
+        console.log(password)
+        return new Promise((res, rej) => 
+        bcryptjs.compare(password, hash, function(err, unlocked) {
+            console.log(err) 
+            console.log(unlocked)
+            console.log("i bcrypt") 
+            if(err) {
+                rej(err)
+            }
+            res(unlocked)
+            // res innehåller nu true eller false beroende på om det är rätt lösenord.
+        })
+        )
     }
 };
 
