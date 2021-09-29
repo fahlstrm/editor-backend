@@ -2,6 +2,8 @@
 const document = require("./get.js");
 
 const database = require("../db/database.js");
+const { ObjectId } = require("mongodb");
+
 // const { MongoClient, ObjectId } = require("mongodb");
 
 /**
@@ -10,27 +12,22 @@ const database = require("../db/database.js");
 const data = {
     updateDoc: async function(id, body) {
         var created = null;
-        const db = await database.getDb();
-        
+        const db = await database.documents();
+
         try {
             //Get document by id
-            console.log("i uppdatera")
-
-            console.log(id)
             let found = await document.oneTitle(id);
-
-            //Using title or creates new one
+            //Using title 
             const query = {title: found};
-         
             // create a new document that will be used to replace the existing document
             const replacement = {
-                title: body.text.slice(3, 15),
+                title: body.title,
                 text: body.text,
+                users: body.users
             };
 
-            console.log(replacement)
             const result = await db.collection.replaceOne(query, replacement);
-            console.log(result)
+
             if (result.modifiedCount === 0 && result.upsertedCount === 0) {
                 console.log("No changes made to the collection.");
             } else {
@@ -47,12 +44,33 @@ const data = {
                         "Inserted one new document with an _id of " + result.upsertedId
                     );
                 }
-                console.log("färdig uppdatera")
-
             }
         } finally {
             await db.client.close();
             return created;
+        }
+    },
+    updateUser: async function(body) {
+        const db = await database.documents();
+        var updated;
+        try {
+            const query = {_id: new ObjectId(body.id)};
+            let cursor = await db.collection.find(query);
+            let foundDoc = await cursor.toArray();
+
+            foundDoc[0].users.push(body.newUser)
+            console.log(foundDoc[0].users)
+
+            const replacement = {
+                title: foundDoc[0].title,
+                text: foundDoc[0].text,
+                users : foundDoc[0].users
+            } 
+
+            updated = await db.collection.replaceOne(query, replacement);
+        } finally {
+            await db.client.close();
+            return updated;
         }
     }
 };

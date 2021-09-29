@@ -4,34 +4,60 @@ var router = express.Router();
 const update = require("../src/update.js");
 const newDoc = require("../src/post.js");
 
+const jwt = require("../src/jwt.js");
 
 
-router.post('/:id', async function(req, res) {
-    let result = await update.updateDoc(req.params.id, req.body);
+// router.post('/:id', async function(req, res) {
+//     let result = await update.updateDoc(req.params.id, req.body);
 
-    if (result) {
-        res.status(201).send();
-    } else {
-        res.status(204).send();
-    }
-    // res.json({
-    //     data: {
-    //         msg: "Got a POST request"
-    //     }
-    // });
-});
+//     if (result) {
+//         res.status(201).send();
+//     } else {
+//         res.status(204).send();
+//     }
+//     // res.json({
+//     //     data: {
+//     //         msg: "Got a POST request"
+//     //     }
+//     // });
+// });
 
 router.post('/new/doc', async function(req, res) {
-    console.log(req.body)
-    let result = await newDoc.createNew(req.body.text);
-    console.log(result)
-
-    const data = {
-        data: result
-    };
-
-    res.json(data);
+    const token = req.headers['x-access-token'];
+    let result = await jwt.verifyToken(token).then(async (resolved) => {
+        let res = await newDoc.createNew(req.body);
+        data = {
+            data: res,
+            jwt: resolved
+        };
+        return data;   
+    }).catch((rejected) => {
+        data = {
+            err: rejected
+        };
+        return data;   
+    });
+    res.json(result);
 });
 
+
+
+router.post('/new/user', async function(req, res) {
+    const token = req.headers['x-access-token'];
+    let result = await jwt.verifyToken(token).then(async (resolved) => {
+        let res = await update.updateUser(req.body);
+        data = {
+            data: res,
+            jwt: resolved
+        };
+        return data;   
+    }).catch((rejected) => {
+        data = {
+            err: rejected
+        };
+        return data;   
+    });
+    res.json(result);
+});
 
 module.exports = router;

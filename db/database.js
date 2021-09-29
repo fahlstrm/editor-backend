@@ -1,5 +1,7 @@
 const mongo = require("mongodb").MongoClient;
 
+// const {MongoClient} = require("mongodb");
+
 var config;
 
 try {
@@ -8,7 +10,6 @@ try {
     console.log(e);
 }
 
-var collectionName = "";
 
 var username = process.env.USERNAME || config.username;
 var password = process.env.PASSWORD || config.password;
@@ -17,8 +18,9 @@ var password = process.env.PASSWORD || config.password;
 var link = `cluster0.yu3ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const database = {
-    getDb: async function getDb() {
+    documents: async function () {
         let dsn = `mongodb+srv://${username}:${password}@${link}`;
+        let collectionName; 
 
         if (process.env.NODE_ENV != 'test') {
             // Production collection name
@@ -32,6 +34,7 @@ const database = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
+
         const db = await client.db("editor");
         const collection = await db.collection(collectionName);
 
@@ -41,8 +44,9 @@ const database = {
             client: client,
         };
     },
-    getUsersDb: async function getDb() {
+    users: async function () {
         let dsn = `mongodb+srv://${username}:${password}@${link}`;
+        let collectionName; 
 
         if (process.env.NODE_ENV != 'test') {
             // Production collection name
@@ -56,6 +60,8 @@ const database = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
+
+
         const db = await client.db("editor");
         const collection = await db.collection(collectionName);
 

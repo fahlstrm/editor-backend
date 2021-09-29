@@ -19,19 +19,12 @@ const data = {
         )
     },
     unhash: function (password, hash) {
-        console.log("i unhash")
-        console.log(hash)
-        console.log(password)
         return new Promise((res, rej) => 
         bcryptjs.compare(password, hash, function(err, unlocked) {
-            console.log(err) 
-            console.log(unlocked)
-            console.log("i bcrypt") 
             if(err) {
                 rej(err)
             }
             res(unlocked)
-            // res innehåller nu true eller false beroende på om det är rätt lösenord.
         })
         )
     }

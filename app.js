@@ -20,7 +20,8 @@ const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-      origin: "http://www.student.bth.se",
+    //   origin: "http://www.student.bth.se",
+    origin: "*",
       methods: ["GET", "POST"]
     }
   });
@@ -29,8 +30,6 @@ const io = require("socket.io")(httpServer, {
 io.on('connection', function (socket) {
     console.info("User connected");
     console.log(socket.handshake.query);
-    // socket.emit('message', "testing some data new");
-    // var throttleTimer;
 
     socket.on('create', function(room) {
         var reset;
@@ -43,15 +42,12 @@ io.on('connection', function (socket) {
 
     socket.on('message', function (message) {
         console.log(message)
-        let id = message.id; 
         socket.to(message.id).emit("message", message.text);
 
         throttleTimer = setTimeout(async function() {
             console.log("now it should save to database")
             await update.updateDoc(message.id, message);
-            // console.log(res)
         }, 2000);
-        // io.emit('message', message.text);
     });
 
 });
@@ -79,8 +75,9 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/', index);
 app.use('/save', save);
-app.use('/documents', documents);
 app.use('/users', users);
+
+app.use('/documents', documents);
 
 
 app.get("/test", (req, res) => {

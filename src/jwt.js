@@ -23,6 +23,16 @@ var config;
             res(token);
         })
     },
+    verifyToken: function(token) {
+        return new Promise(async (res, rej) => {
+            jwt.verify(token, this.secret, function(err, decoded) {
+                if (err) {
+                    return rej(err)
+                }
+                return res(decoded) 
+             });
+        })
+    }
 }
 
 module.exports = data;
