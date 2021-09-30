@@ -24,6 +24,7 @@ var config;
         })
     },
     verifyToken: function(token) {
+        // console.log(`token  i verifyToken: ${token}`)
         return new Promise(async (res, rej) => {
             jwt.verify(token, this.secret, function(err, decoded) {
                 if (err) {

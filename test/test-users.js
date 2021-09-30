@@ -4,29 +4,23 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
 const db = require("./db-setup.js")
-const jwt = require("./jwt-setup.js")
 
 chai.use(chaiHttp);
 chai.should();
 
-let token; 
 
-describe('Save', () => {
+describe('Users', () => {
     before('connect', async function() {
         await db.tearDown();
-        doc = await db.createDoc();
-        token = await jwt.createToken("TestUser");
-        console.log(doc)
+        // result = await db.create("doc");
     });
-    describe('POST /save/new/doc', () => {
+    describe('POST /users/create', () => {
         it('it should return an object', (done) => {
             chai.request(server)
-                .post(`/save/new/doc`)
-                .set({'x-access-token': token})
+                .post(`/users/create`)
                 .send({
-                    title: "New title",
-                    text: "",
-                    users: ["testuser", "anotherTestUser" ]
+                    username: "TestUser",
+                    password: "AnHashedPassword",
                 })
                 .end((err, res) => {
                     res.body.should.be.an("object");
@@ -34,15 +28,24 @@ describe('Save', () => {
                 });
         });
     });
-    describe('POST /save/new/user', () => {
+    describe('POST /users/login', () => {
         it('it should return an object', (done) => {
             chai.request(server)
-                .post(`/save/new/user`)
-                .set({'x-access-token': token})
+                .post(`/users/login`)
                 .send({
-                    id: doc.id,
-                    newUser: "newUser"
+                    username: "TestUser",
+                    password: "AnHashedPassword",
                 })
+                .end((err, res) => {
+                    res.body.should.be.an("object");
+                    done();
+                });
+        });
+    });
+    describe('POST /users/all', () => {
+        it('it should return an object', (done) => {
+            chai.request(server)
+                .get(`/users/all`)
                 .end((err, res) => {
                     res.body.should.be.an("object");
                     done();

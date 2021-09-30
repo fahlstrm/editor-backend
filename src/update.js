@@ -59,7 +59,7 @@ const data = {
             let foundDoc = await cursor.toArray();
 
             foundDoc[0].users.push(body.newUser)
-            console.log(foundDoc[0].users)
+            // console.log(foundDoc[0].users)
 
             const replacement = {
                 title: foundDoc[0].title,
@@ -68,6 +68,7 @@ const data = {
             } 
 
             updated = await db.collection.replaceOne(query, replacement);
+            // let result = foundDoc[0].users;
         } finally {
             await db.client.close();
             return updated;

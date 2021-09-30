@@ -27,7 +27,7 @@ const database = {
             collectionName = "texts";
         } else if (process.env.NODE_ENV == 'test') {
             //Test collection name
-            collectionName = "test-docs";
+            collectionName = "test";
         }
 
         const client  = await mongo.connect(dsn, {
@@ -53,7 +53,7 @@ const database = {
             collectionName = "users";
         } else if (process.env.NODE_ENV == 'test') {
             //Test collection name
-            collectionName = "test-users";
+            collectionName = "test";
         }
 
         const client  = await mongo.connect(dsn, {

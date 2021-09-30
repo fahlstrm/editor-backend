@@ -28,7 +28,6 @@ const data = {
             const user = { 
                 username: body.username,
                 password: hashedPW,
-                permission: body.permission
             };
 
             result = await db.collection.insertOne(user);
