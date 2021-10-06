@@ -3,26 +3,31 @@ const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const cors = require('cors');
 
+const update = require("./src/update.js");
 const index = require('./routes/index');
 const save = require('./routes/save');
-const documents = require('./routes/documents');
-const users = require('./routes/users');
+// const documents = require('./routes/documents');
 
-const update = require("./src/update.js");
-
-
+const { graphqlHTTP } = require('express-graphql');
+const {GraphQLSchema} = require("graphql");
+const RootQueryType = require("./graphql/root.js");
+const root = require('./graphql/root');
+ 
 const app = express();
-// const port = process.env.PORT || 1337;
 const port = process.env.PORT || 3000;
 
 
+
+/**
+ * Sockets.io
+ */
 const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-    //   origin: "http://www.student.bth.se",
-    origin: "*",
-      methods: ["GET", "POST"]
+        // origin: "http://www.student.bth.se",
+        origin: "*",
+        methods: ["GET", "POST"]
     }
   });
 
@@ -58,6 +63,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(cors());
 
 
+
 // This is middleware called for all routes.
 // Middleware takes three parameters.
 app.use((req, res, next) => {
@@ -73,13 +79,40 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 
+
+/**
+ * HTTP-routes
+ */
 app.use('/', index);
-app.use('/save', save);
-app.use('/users', users);
+// app.use('/save', save);
+// app.use('/users', users);
+// app.use('/documents', documents);
 
-app.use('/documents', documents);
 
 
+/**
+ * Graphql 
+ */
+
+
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
+app.use(
+    '/graphql',
+    graphqlHTTP({
+      schema: schema,
+      graphiql: true,
+    }),
+);
+
+
+
+
+/**
+ * Test route 
+ */
 app.get("/test", (req, res) => {
     const data = {
         data: {
@@ -93,6 +126,10 @@ app.get("/test", (req, res) => {
 });
 
 
+
+/**
+ * Error handling
+ */
 app.use((req, res, next) => {
     var err = new Error("Not Found");
 
@@ -116,8 +153,11 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start up server
-// const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+
+
+/**
+ * Start up server
+ */
 const server= httpServer.listen(port, () => {
     console.log(`listening on ${port}`);
   });
