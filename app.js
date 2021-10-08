@@ -4,9 +4,11 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const update = require("./src/update.js");
+const jwt = require("./src/jwt.js");
 const index = require('./routes/index');
 const save = require('./routes/save');
-// const documents = require('./routes/documents');
+const users = require('./routes/users');
+const documents = require('./routes/documents');
 
 const { graphqlHTTP } = require('express-graphql');
 const {GraphQLSchema} = require("graphql");
@@ -25,8 +27,8 @@ const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-        // origin: "http://www.student.bth.se",
-        origin: "*",
+        origin: "http://www.student.bth.se",
+        // origin: "*",
         methods: ["GET", "POST"]
     }
   });
@@ -58,6 +60,7 @@ io.on('connection', function (socket) {
 });
 
 
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
@@ -84,26 +87,24 @@ if (process.env.NODE_ENV !== 'test') {
  * HTTP-routes
  */
 app.use('/', index);
-// app.use('/save', save);
-// app.use('/users', users);
-// app.use('/documents', documents);
-
+app.use('/save', save);
+app.use('/users', users);
+app.use('/documents', documents);
 
 
 /**
  * Graphql 
  */
-
-
-const schema = new GraphQLSchema({
+ const schema = new GraphQLSchema({
     query: RootQueryType
 });
 
 app.use(
     '/graphql',
+    (request, response, next) => jwt.checkToken(request, response, next),
     graphqlHTTP({
       schema: schema,
-      graphiql: true,
+      graphiql: false,
     }),
 );
 
@@ -124,6 +125,7 @@ app.get("/test", (req, res) => {
     // res.json(data);
     res.status(200).json(data);
 });
+
 
 
 
@@ -152,6 +154,8 @@ app.use((err, req, res, next) => {
         ]
     });
 });
+
+
 
 
 

@@ -2,9 +2,10 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLList,
-    // GraphQLInt,
-    // GraphQLNonNull
 } = require('graphql');
+
+const { ObjectId } = require("mongodb");
+
 
 const documents = require("../src/get.js");
 const users = require("../src/users.js");
@@ -24,8 +25,7 @@ const RootQueryType = new GraphQLObjectType({
             },
             resolve: async function(parent, args) {
                 let documentArray = await documents.all()
-
-                return documentArray.find(doc => doc.id === args.id);
+                return documentArray.find(doc => doc._id.toString() === args.id);
             }
         },
         documents: {
@@ -33,6 +33,18 @@ const RootQueryType = new GraphQLObjectType({
             description: 'List of available documents',
             resolve: async function() {
                 return await documents.all();
+            }
+        },
+        userDocuments: {
+            type: GraphQLList(DocumentType),
+            description: 'List of available documents for given user',
+            args: {
+                username: { type: GraphQLString }
+            },
+            resolve: async function(parent, args) {
+                console.log(args, " i resolve")
+                let documentArray = await documents.userDocs(args.username)
+                return documentArray;
             }
         },
         users: {

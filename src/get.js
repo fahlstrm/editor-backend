@@ -23,6 +23,19 @@ const data = {
             return result;
         }
     },
+    userDocs: async function(user) {
+        const db = await database.documents();
+            var result; 
+            try {
+                const query = {users: user};
+                let crusor = await db.collection.find(query);
+                result = await crusor.toArray();
+                console.log(result)
+            } finally {
+                await db.client.close();
+                return result;
+            }
+    },
     docUsers: async function(id) {
         const db = await database.documents();
         var result; 

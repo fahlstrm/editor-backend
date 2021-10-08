@@ -33,6 +33,19 @@ var config;
                 return res(decoded) 
              });
         })
+    },
+    checkToken: function(req, res, next) {
+        const token = req.headers['x-access-token'];
+        return new Promise(async (res, rej) => {
+            jwt.verify(token, this.secret, function(err, decoded) {
+                if (err) {
+                    console.log(err);
+                    return rej(err);
+                }
+                console.log(decoded);
+                return next();
+             });
+        })
     }
 }
 
