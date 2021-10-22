@@ -12,13 +12,13 @@ const DocumentType = new GraphQLObjectType({
     description: 'A document created in editor',
     fields: () => ({
         _id: { type: GraphQLNonNull(GraphQLString) },
+        type: {type: GraphQLNonNull(GraphQLString)},
         title: { type: GraphQLNonNull(GraphQLString) },
-        text: { type: GraphQLNonNull(GraphQLString) },
+        content: { type: GraphQLNonNull(GraphQLString) },
         users: {
             type: GraphQLList(UserType),
             resolve: (document) => {
                 let test = get.docUsers(document._id);
-                console.log("hej")
                 return document.users
             }}
     })

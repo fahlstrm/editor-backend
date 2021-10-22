@@ -22,8 +22,10 @@ const data = {
             // create a new document that will be used to replace the existing document
             const replacement = {
                 title: body.title,
-                text: body.text,
-                users: body.users
+                type: body.type,
+                content: body.content,
+                users: body.users,
+                comments: body.comments
             };
 
             const result = await db.collection.replaceOne(query, replacement);
@@ -63,11 +65,44 @@ const data = {
 
             const replacement = {
                 title: foundDoc[0].title,
-                text: foundDoc[0].text,
-                users : foundDoc[0].users
+                type: foundDoc[0].type,
+                content: foundDoc[0].content,
+                users : foundDoc[0].users,
+                comments: foundDoc[0].comments
             } 
 
             updated = await db.collection.replaceOne(query, replacement);
+            // let result = foundDoc[0].users;
+        } finally {
+            await db.client.close();
+            return updated;
+        }
+    },
+    updateComments: async function(id, body) {
+        console.log(body.comment)
+        const db = await database.documents();
+        var updated;
+        try {
+            const query = {_id: new ObjectId(id)};
+            let cursor = await db.collection.find(query);
+            let foundDoc = await cursor.toArray();
+            console.log("hittat", foundDoc[0])
+            if (!foundDoc[0].comments) {
+                foundDoc[0].comments = [];
+            }
+            foundDoc[0].comments.push(body.comment)
+            console.log("hittade kommentar:" , foundDoc[0].comments)
+
+            const replacement = {
+                title: foundDoc[0].title,
+                type: foundDoc[0].type,
+                content: body.content,
+                users : foundDoc[0].users,
+                comments: foundDoc[0].comments
+            } 
+            console.log("i update", replacement)
+            updated = await db.collection.replaceOne(query, replacement);
+            console.log(updated)
             // let result = foundDoc[0].users;
         } finally {
             await db.client.close();

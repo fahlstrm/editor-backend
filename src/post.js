@@ -14,8 +14,10 @@ const data = {
             // create a document to be inserted
             const doc = { 
                 title: body.title,
-                text: ``,
-                users: [ body.username ] };
+                type: body.type,
+                content: ``,
+                users: [ body.username ],
+                comments: [] };
 
             result = await db.collection.insertOne(doc);
         } finally {

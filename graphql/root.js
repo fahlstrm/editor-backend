@@ -36,14 +36,16 @@ const RootQueryType = new GraphQLObjectType({
             }
         },
         userDocuments: {
+            
             type: GraphQLList(DocumentType),
-            description: 'List of available documents for given user',
+            description: 'List of available documents for given user and type',
             args: {
-                username: { type: GraphQLString }
+                username: { type: GraphQLString },
+                type: {type: GraphQLString }
             },
             resolve: async function(parent, args) {
                 console.log(args, " i resolve")
-                let documentArray = await documents.userDocs(args.username)
+                let documentArray = await documents.userDocs(args.username, args.type)
                 return documentArray;
             }
         },

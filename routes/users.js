@@ -2,14 +2,29 @@ var express = require('express');
 var router = express.Router();
 
 const users = require("../src/users.js");
+const update = require("../src/update.js");
 const jwt = require("../src/jwt.js");
 
 
 
 router.post('/create', async function(req, res) {
-    let result = await users.createUser(req.body);
+
+    let id = await users.createUser(req.body);
+
+    if (req.body.urlId) {
+        let val = {
+            id: req.body.urlId,
+            newUser: req.body.username
+        }
+        let userAdded = await update.updateUser(val);
+        console.log(userAdded)
+    }
+    
+    let result = await users.loginUser(req.body)
+
     const data = {
         data: {
+            id: id,
             result: result
         }
     };
@@ -17,6 +32,8 @@ router.post('/create', async function(req, res) {
     console.log(data);
     res.status(200).json(data);
 });
+
+
 
 router.post('/login', async function(req, res) {
     let result = await users.loginUser(req.body);

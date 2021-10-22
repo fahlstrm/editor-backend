@@ -9,15 +9,17 @@ const index = require('./routes/index');
 const save = require('./routes/save');
 const users = require('./routes/users');
 const documents = require('./routes/documents');
+const comments = require('./routes/comments');
 
 const { graphqlHTTP } = require('express-graphql');
 const {GraphQLSchema} = require("graphql");
 const RootQueryType = require("./graphql/root.js");
 const root = require('./graphql/root');
+
+const puppeteer = require('./puppeteer/puppeteer');
  
 const app = express();
 const port = process.env.PORT || 3000;
-
 
 
 /**
@@ -27,8 +29,8 @@ const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-        origin: "http://www.student.bth.se",
-        // origin: "*",
+        // origin: "http://www.student.bth.se",
+        origin: "*",
         methods: ["GET", "POST"]
     }
   });
@@ -49,10 +51,12 @@ io.on('connection', function (socket) {
 
     socket.on('message', function (message) {
         console.log(message)
-        socket.to(message.id).emit("message", message.text);
+        console.log("skickar meddelande")
+        socket.to(message.id).emit("message", message.content);
 
         throttleTimer = setTimeout(async function() {
             console.log("now it should save to database")
+            console.log("data som skickas tillbaka", message)
             await update.updateDoc(message.id, message);
         }, 2000);
     });
@@ -90,6 +94,7 @@ app.use('/', index);
 app.use('/save', save);
 app.use('/users', users);
 app.use('/documents', documents);
+app.use('/comments', comments);
 
 
 /**
@@ -99,13 +104,20 @@ app.use('/documents', documents);
     query: RootQueryType
 });
 
+
+// TODO: Sätt tillbaka till token
 app.use(
     '/graphql',
-    (request, response, next) => jwt.checkToken(request, response, next),
     graphqlHTTP({
       schema: schema,
       graphiql: false,
     }),
+    // '/graphql',
+    // (request, response, next) => jwt.checkToken(request, response, next),
+    // graphqlHTTP({
+    //   schema: schema,
+    //   graphiql: false,
+    // }),
 );
 
 
@@ -115,15 +127,10 @@ app.use(
  * Test route 
  */
 app.get("/test", (req, res) => {
-    const data = {
-        data: {
-            msg: "Testsidan"
-        }
-    };
 
-    console.log(data);
-    // res.json(data);
-    res.status(200).json(data);
+    const data = puppeteer.createPdf();
+
+
 });
 
 
@@ -154,8 +161,6 @@ app.use((err, req, res, next) => {
         ]
     });
 });
-
-
 
 
 

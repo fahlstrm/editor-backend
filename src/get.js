@@ -23,11 +23,11 @@ const data = {
             return result;
         }
     },
-    userDocs: async function(user) {
+    userDocs: async function(user, type) {
         const db = await database.documents();
             var result; 
             try {
-                const query = {users: user};
+                const query = {users: user, type: type};
                 let crusor = await db.collection.find(query);
                 result = await crusor.toArray();
                 console.log(result)
@@ -97,6 +97,22 @@ const data = {
                 let crusor = await db.collection.find(query);
                 var found = await crusor.toArray();
     
+                return found[0];
+            }
+            return "No valid id";
+        } finally {
+            await db.client.close();
+        }  
+    },
+    getComments: async function run(id) {
+        const db = await database.documents();
+        try {
+
+            if (ObjectId.isValid(id)) {
+                const query = {_id: new ObjectId(id)};
+                let crusor = await db.collection.find(query);
+                var found = await crusor.toArray();
+     
                 return found[0];
             }
             return "No valid id";
