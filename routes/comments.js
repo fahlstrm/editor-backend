@@ -7,12 +7,8 @@ const jwt = require("../src/jwt.js");
 
 
 router.post('/create/:id', async function(req, res) {
-    // let result = await update.updateComments(req.params.id, req.body);
-    // data = {
-    //     data: result
-    // };
-
     const token = req.headers['x-access-token'];
+
     let result = await jwt.verifyToken(token).then(async () => {
         let res = await update.updateComments(req.params.id, req.body);
         data = {
@@ -29,12 +25,8 @@ router.post('/create/:id', async function(req, res) {
 });
 
 router.get('/:id', async function(req, res) {
-    // let result = await get.getComments(req.params.id);
-    // data = {
-    //     data: result
-    // };
-
     const token = req.headers['x-access-token'];
+
     let result = await jwt.verifyToken(token).then(async () => {
         let res = await get.getComments(req.params.id);
 

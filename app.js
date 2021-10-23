@@ -29,8 +29,8 @@ const httpServer = require("http").createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-        // origin: "http://www.student.bth.se",
-        origin: "*",
+        origin: "http://www.student.bth.se",
+        // origin: "*",
         methods: ["GET", "POST"]
     }
   });
@@ -64,11 +64,9 @@ io.on('connection', function (socket) {
 });
 
 
-
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
-
 
 
 // This is middleware called for all routes.
@@ -84,7 +82,6 @@ if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
 }
-
 
 
 /**
@@ -105,22 +102,14 @@ app.use('/comments', comments);
 });
 
 
-// TODO: Sätt tillbaka till token
 app.use(
     '/graphql',
+    (request, response, next) => jwt.checkToken(request, response, next),
     graphqlHTTP({
       schema: schema,
       graphiql: false,
     }),
-    // '/graphql',
-    // (request, response, next) => jwt.checkToken(request, response, next),
-    // graphqlHTTP({
-    //   schema: schema,
-    //   graphiql: false,
-    // }),
 );
-
-
 
 
 /**
@@ -132,8 +121,6 @@ app.get("/test", (req, res) => {
 
 
 });
-
-
 
 
 /**
@@ -161,7 +148,6 @@ app.use((err, req, res, next) => {
         ]
     });
 });
-
 
 
 /**

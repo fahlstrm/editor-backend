@@ -6,13 +6,13 @@ const path = require('path');
 
 // Puppeteer functions 
 const data = {
-    test: {
-        title: "test",
-        text: `<p>Detta är Tokers dokument</p><p><br></p><p>Som delas med Frida</p><p>Så det så</p><p><br></p><p>Toker skriver</p><p>Frida ser</p>`
-    },
+    // test: {
+    //     title: "test",
+    //     text: `<p>Detta är Tokers dokument</p><p><br></p><p>Som delas med Frida</p><p>Så det så</p><p><br></p><p>Toker skriver</p><p>Frida ser</p>`
+    // },
     createPdf: async function (data) {
         try {
-            const browser = await puppeteer.launch();
+            const browser = await puppeteer.launch({ args: [ '--no-sandbox' ], ignoreDefaultArgs: ['--disable-extensions'] });
             const page = await browser.newPage();
             const content = await this.compile('template', data)
 
@@ -29,6 +29,7 @@ const data = {
             // process.exit();
         } catch (e) {
             console.log('Error: ', e);
+            
         }
     },
     compile: async function(templateName, data) {
